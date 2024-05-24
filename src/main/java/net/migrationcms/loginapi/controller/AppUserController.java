@@ -48,6 +48,8 @@ public class AppUserController {
 	@PostMapping("/users")
 	public AppUser saveUser(@RequestBody AppUser appUser) {
 		AppUser savedAppUser = appUserService.saveAppUser(appUser);
+		System.out.println(appUser);
+		System.out.println(savedAppUser);
 
 		return savedAppUser;
 	}
