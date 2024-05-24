@@ -3,8 +3,10 @@ package net.migrationcms.loginapi.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,11 +20,20 @@ public class AppUserController {
     @Autowired
     private AppUserService appUserService;
 
+	/**
+	 * Get users list
+	 * @return The list of users
+	 */
     @GetMapping("/users")
     public Iterable<AppUser> getUsersList() {
         return appUserService.getAppUsersList();
     }
 
+	/**
+	 * Get user by id
+	 * @param id - the user's id
+	 * @return The user if exists or null
+	 */
     @GetMapping("/user/{id}")
 	public AppUser getUser(@PathVariable("id") final int id) {
 		Optional<AppUser> appUser = appUserService.getAppUser(id);
@@ -34,7 +45,20 @@ public class AppUserController {
 		}
 	}
 
-    @PutMapping("/employee/{id}")
+	@PostMapping("/users")
+	public AppUser saveUser(@RequestBody AppUser appUser) {
+		AppUser savedAppUser = appUserService.saveAppUser(appUser);
+
+		return savedAppUser;
+	}
+
+	/**
+	 * Update user's data
+	 * @param id - the user's id
+	 * @param appUser - the user
+	 * @return The user if exists or null
+	 */
+    @PutMapping("/user/{id}")
 	public AppUser updateUser(@PathVariable("id") final int id, @RequestBody AppUser appUser) {
 		Optional<AppUser> optionalUser = appUserService.getAppUser(id);
 		if(optionalUser.isPresent()) {
@@ -62,5 +86,14 @@ public class AppUserController {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Delete user
+	 * @param id - The user's id
+	 */
+	@DeleteMapping("/user/{id}")
+	public void deleteUser(@PathVariable("id") final int id) {
+		appUserService.deleteAppUser(id);
 	}
 }
