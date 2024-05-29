@@ -45,11 +45,14 @@ public class AppUserController {
 		}
 	}
 
+	/**
+	 * Save user's data
+	 * @param appUser - The user
+	 * @return the saved user
+	 */
 	@PostMapping("/users")
 	public AppUser saveUser(@RequestBody AppUser appUser) {
 		AppUser savedAppUser = appUserService.saveAppUser(appUser);
-		System.out.println(appUser);
-		System.out.println(savedAppUser);
 
 		return savedAppUser;
 	}
@@ -72,7 +75,11 @@ public class AppUserController {
 			}
 			String lastName = appUser.getLastName();
 			if(lastName != null) {
-				currentUser.setLastName(lastName);;
+				currentUser.setLastName(lastName);
+			}
+			String companyName = appUser.getCompanyName();
+			if(companyName != null) {
+				currentUser.setCompanyName(companyName);
 			}
 			String mail = appUser.getMail();
 			if(mail != null) {
